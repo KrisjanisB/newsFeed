@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="lv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delfi Test</title>
+    <link rel="stylesheet" href="src/sass/main.scss" />
+    <script defer src="src/js/main.js"></script>
+  </head>
+  <body>
+    <div class="d-flex" id="wrapper">
+      <!-- Sidebar -->
+      <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading d-flex justify-content-between">
+          <h2>Delfi</h2>
+          <div class="d-block d-sm-none">
+            <button class="btn btn-light btn-sm menu-toggle">Arhīvs</button>
+          </div>
+        </div>
+        <ul class="list-group list-group-flush bookmark-list"></ul>
+      </div>
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper">
+        <nav
+          class="navbar navbar-expand-lg navbar-light bg-light border-bottom"
+          id="navbar"
+        >
+          <button class="btn btn-light btn-sm menu-toggle">Arhīvs</button>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0 filters">
+              <li class="nav-item mr-2">
+                <button
+                  class="btn btn-sm btn-light filter-btn active"
+                  data-filter="0"
+                >
+                  Visi
+                </button>
+              </li>
+              <li class="nav-item mr-2">
+                <button class="btn btn-sm btn-light filter-btn" data-filter="1">
+                  DELFI
+                </button>
+              </li>
+              <li class="nav-item mr-2">
+                <button class="btn btn-sm btn-light filter-btn" data-filter="7">
+                  DELFI Pluss
+                </button>
+              </li>
+              <li class="nav-item mr-2">
+                <button
+                  class="btn btn-sm btn-light filter-btn"
+                  data-filter="40"
+                >
+                  MVP
+                </button>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <div class="container-fluid py-3" id="feed-container">
+          <div class="row feed justify-content-center mb-5"></div>
+        </div>
+      </div>
+      <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- Menu Toggle Script -->
+  </body>
+</html>

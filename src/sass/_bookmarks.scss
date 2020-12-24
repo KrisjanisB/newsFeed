@@ -1,0 +1,28 @@
+// BOOKMARK
+
+.bookmark-item {
+  border-width: 0 !important;
+  img {
+    border-radius: 0.75em;
+  }
+}
+
+.bookmark-title {
+  font-size: 0.9em;
+}
+
+.bookmark-btn {
+  position: absolute;
+  right: 0;
+
+  background: rgba(0, 0, 0, 0.6);
+  margin: 0.2em;
+  padding: 0.3em 0.5em 0.1em 0.6em;
+  border-radius: 50%;
+  color: $white;
+  cursor: pointer;
+
+  &:hover {
+    color: $primary;
+  }
+}

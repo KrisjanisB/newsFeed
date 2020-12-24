@@ -1,0 +1,37 @@
+$theme-colors: (
+  "primary": #0372dd,
+  "danger": #ff4136,
+);
+
+@import "~bootstrap/scss/bootstrap";
+@import "layout";
+@import "bookmarks";
+@import "@fortawesome/fontawesome-free/css/all.css";
+
+// CUSTOM
+
+.bg-light {
+  background-color: #fff !important;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+// CARDS
+
+.card {
+  box-shadow: 0 6px 12px rgba(140, 152, 164, 0.075);
+  border-radius: 0.75em;
+
+  img {
+    border-top-left-radius: 0.75em;
+    border-top-right-radius: 0.75em;
+  }
+}
+.card-hover-shadow {
+  transition: 0.3s;
+  &:hover {
+    box-shadow: 0 6px 12px rgba(140, 152, 164, 0.25) !important;
+  }
+}
