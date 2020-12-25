@@ -1,9 +1,8 @@
 import { API_URL } from "./config";
 export const state = {
   feed: {},
-
   bookmarks: [],
-  article: {},
+  channels: [0].sort(),
 };
 
 export const loadFeed = async function () {
@@ -18,6 +17,10 @@ export const loadFeed = async function () {
         if (state.bookmarks.some((bookmark) => bookmark.id === article.id))
           bookmark = true;
       }
+      // Collect available channals
+      if (state.channels.indexOf(+article.channel_id) < 0)
+        state.channels.push(+article.channel_id);
+
       return {
         id: article.id,
         channelID: +article.channel_id,
@@ -32,8 +35,10 @@ export const loadFeed = async function () {
         pictureAlt: article.picture_alt,
         publishedDate: article.publish_date,
         bookmarked: bookmark,
+        filter: false,
       };
     });
+    console.log(state);
   } catch (error) {
     console.log(error);
   }
@@ -41,16 +46,24 @@ export const loadFeed = async function () {
 
 export const filter = function (filter) {
   if (filter != 0)
-    state.feed.sort((a, b) => {
-      if (a.channelID == filter) return -1;
-      return 0;
+    state.feed.forEach((art) => {
+      if (art.channelID != filter) art.filter = true;
+      else art.filter = false;
     });
+  // state.feed.sort((a, b) => {
+  //   if (a.channelID == filter) return -1;
+  //   return 0;
+  // });
   else
-    state.feed.sort((a, b) => {
-      if (a.publishedDate > b.publishedDate) return -1;
-      if (a.publishedDate < b.publishedDate) return 1;
-      return 0;
+    state.feed.forEach((art) => {
+      art.filter = false;
     });
+  // state.feed.sort((a, b) => {
+  //   if (a.publishedDate > b.publishedDate) return -1;
+  //   if (a.publishedDate < b.publishedDate) return 1;
+  //   return 0;
+  // });
+  console.log(state.feed);
 };
 
 const persitBookmark = function () {

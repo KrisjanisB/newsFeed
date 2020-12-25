@@ -19007,15 +19007,16 @@ try {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MODAL_CLOSE_SEC = exports.RES_PER_PAGE = exports.TIMEOUT_SEC = exports.API_URL = void 0;
+exports.CHANNELS = exports.API_URL = void 0;
 var API_URL = "https://www.delfi.lv/misc/task_2020/";
 exports.API_URL = API_URL;
-var TIMEOUT_SEC = 10;
-exports.TIMEOUT_SEC = TIMEOUT_SEC;
-var RES_PER_PAGE = 10;
-exports.RES_PER_PAGE = RES_PER_PAGE;
-var MODAL_CLOSE_SEC = 2.5;
-exports.MODAL_CLOSE_SEC = MODAL_CLOSE_SEC;
+var CHANNELS = {
+  0: "Visi",
+  1: "Delfi",
+  7: "Delfi Pluss",
+  40: "MVP"
+};
+exports.CHANNELS = CHANNELS;
 },{}],"src/js/model.js":[function(require,module,exports) {
 "use strict";
 
@@ -19033,7 +19034,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var state = {
   feed: {},
   bookmarks: [],
-  article: {}
+  channels: [0].sort()
 };
 exports.state = state;
 
@@ -19063,8 +19064,10 @@ var loadFeed = /*#__PURE__*/function () {
                 if (state.bookmarks.some(function (bookmark) {
                   return bookmark.id === article.id;
                 })) bookmark = true;
-              }
+              } // Collect available channals
 
+
+              if (state.channels.indexOf(+article.channel_id) < 0) state.channels.push(+article.channel_id);
               return {
                 id: article.id,
                 channelID: +article.channel_id,
@@ -19078,23 +19081,25 @@ var loadFeed = /*#__PURE__*/function () {
                 },
                 pictureAlt: article.picture_alt,
                 publishedDate: article.publish_date,
-                bookmarked: bookmark
+                bookmarked: bookmark,
+                filter: false
               };
             });
-            _context.next = 14;
+            console.log(state);
+            _context.next = 15;
             break;
 
-          case 11:
-            _context.prev = 11;
+          case 12:
+            _context.prev = 12;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
 
-          case 14:
+          case 15:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 11]]);
+    }, _callee, null, [[0, 12]]);
   }));
 
   return function loadFeed() {
@@ -19105,14 +19110,21 @@ var loadFeed = /*#__PURE__*/function () {
 exports.loadFeed = loadFeed;
 
 var filter = function filter(_filter) {
-  if (_filter != 0) state.feed.sort(function (a, b) {
-    if (a.channelID == _filter) return -1;
-    return 0;
-  });else state.feed.sort(function (a, b) {
-    if (a.publishedDate > b.publishedDate) return -1;
-    if (a.publishedDate < b.publishedDate) return 1;
-    return 0;
-  });
+  if (_filter != 0) state.feed.forEach(function (art) {
+    if (art.channelID != _filter) art.filter = true;else art.filter = false;
+  }); // state.feed.sort((a, b) => {
+  //   if (a.channelID == filter) return -1;
+  //   return 0;
+  // });
+  else state.feed.forEach(function (art) {
+      art.filter = false;
+    }); // state.feed.sort((a, b) => {
+  //   if (a.publishedDate > b.publishedDate) return -1;
+  //   if (a.publishedDate < b.publishedDate) return 1;
+  //   return 0;
+  // });
+
+  console.log(state.feed);
 };
 
 exports.filter = filter;
@@ -19209,31 +19221,6 @@ var View = /*#__PURE__*/function () {
 
       this._parentElement.insertAdjacentHTML("afterbegin", markup);
     }
-  }, {
-    key: "update",
-    value: function update(data) {
-      this._data = data;
-
-      var newMarkup = this._generateHtml();
-
-      var newDOM = document.createRange().createContextualFragment(newMarkup);
-      var newElements = Array.from(newDOM.querySelectorAll("*"));
-      var curElements = Array.from(this._parentElement.querySelectorAll("*"));
-      newElements.forEach(function (newEl, i) {
-        var _newEl$firstChild;
-
-        var curEl = curElements[i]; //Update change text
-
-        if (!newEl.isEqualNode(curEl) && ((_newEl$firstChild = newEl.firstChild) === null || _newEl$firstChild === void 0 ? void 0 : _newEl$firstChild.nodeValue.trim()) !== "") {
-          curEl.textContent = newEl.textContent;
-        } //Update attributes
-
-
-        if (!newEl.isEqualNode(curEl)) Array.from(newEl.attributes).forEach(function (attr) {
-          return curEl.setAttribute(attr.name, attr.value);
-        });
-      });
-    }
   }]);
 
   return View;
@@ -19253,18 +19240,6 @@ var _view = _interopRequireDefault(require("./view"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -19308,29 +19283,10 @@ var FeedView = /*#__PURE__*/function (_View) {
 
     _defineProperty(_assertThisInitialized(_this), "_parentElement", document.querySelector(".feed"));
 
-    _defineProperty(_assertThisInitialized(_this), "_filters", document.querySelectorAll(".filter-btn"));
-
     return _this;
   }
 
   _createClass(FeedView, [{
-    key: "addHandlerFilter",
-    value: function addHandlerFilter(handler) {
-      this._filters.forEach(function (btns) {
-        btns.addEventListener("click", function (e) {
-          var btn = e.target;
-          if (!btn) return; // Remove active class from siblings
-
-          _toConsumableArray(btn.parentElement.parentElement.children).forEach(function (sib) {
-            return sib.children[0].classList.remove("active");
-          });
-
-          btn.classList.add("active");
-          handler(btn.dataset.filter);
-        });
-      });
-    }
-  }, {
     key: "addHandlerAddBookmark",
     value: function addHandlerAddBookmark(handler) {
       this._parentElement.addEventListener("click", function (e) {
@@ -19359,7 +19315,7 @@ var FeedView = /*#__PURE__*/function (_View) {
   }, {
     key: "_generateString",
     value: function _generateString(article) {
-      return "\n    <article class=\"col-xs-12 col-md-6 col-xl-3 py-3\" id=\"".concat(article.id, "\">\n      <div class=\"card card-hover-shadow h-100\">\n        <img\n          class=\"card-img-top\"\n          src=\"").concat(article.pictures.preview, "\"\n          alt=\"").concat(article.picturesAlt, "\"\n        />\n        <span class=\"bookmark-btn\" title=\"Sagalb\u0101t\" data-id=\"").concat(article.id, "\">\n          <i class=\"fa").concat(article.bookmarked ? "s" : "r", " fa-bookmark\"></i>\n        </span>\n        <div class=\"card-body d-flex flex-column justify-content-between\">\n          <h5 class=\"card-title\">").concat(article.title, "</h5>\n          <p class=\"d-none\">").concat(article.lead, "</p>\n          <a href=\"").concat(article.url, "\" class=\"btn btn-light btn-sm btn-block\" target=\"_blank\">\n            Las\u012Bt vair\u0101k\n          </a>\n        </div>\n      </div>\n    </article>");
+      if (!article.filter) return "\n    <article class=\"col-xs-12 col-md-6 col-xl-3 py-3\" id=\"".concat(article.id, "\">\n      <div class=\"card card-hover-shadow h-100\">\n        <img\n          class=\"card-img-top\"\n          src=\"").concat(article.pictures.preview, "\"\n          alt=\"").concat(article.picturesAlt, "\"\n        />\n        <span class=\"bookmark-btn\" title=\"Sagalb\u0101t\" data-id=\"").concat(article.id, "\">\n          <i class=\"fa").concat(article.bookmarked ? "s" : "r", " fa-bookmark\"></i>\n        </span>\n        <div class=\"card-body d-flex flex-column justify-content-between\">\n          <h5 class=\"card-title\">").concat(article.title, "</h5>\n          <p class=\"d-none\">").concat(article.lead, "</p>\n          <a href=\"").concat(article.url, "\" class=\"btn btn-light btn-sm btn-block\" target=\"_blank\">\n            Las\u012Bt vair\u0101k\n          </a>\n        </div>\n      </div>\n    </article>");
     }
   }]);
 
@@ -19461,7 +19417,120 @@ var BookmarksView = /*#__PURE__*/function (_View) {
 var _default = new BookmarksView();
 
 exports.default = _default;
-},{"./view":"src/views/view.js"}],"src/js/controller.js":[function(require,module,exports) {
+},{"./view":"src/views/view.js"}],"src/views/channelsView.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _config = require("../js/config");
+
+var _view = _interopRequireDefault(require("./view"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var ChannelsView = /*#__PURE__*/function (_View) {
+  _inherits(ChannelsView, _View);
+
+  var _super = _createSuper(ChannelsView);
+
+  function ChannelsView() {
+    var _this;
+
+    _classCallCheck(this, ChannelsView);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty(_assertThisInitialized(_this), "_parentElement", document.querySelector(".channels"));
+
+    return _this;
+  }
+
+  _createClass(ChannelsView, [{
+    key: "addHandlerRender",
+    value: function addHandlerRender(handler) {
+      window.addEventListener("load", handler);
+      handler(handler);
+    }
+  }, {
+    key: "addHandlerFilter",
+    value: function addHandlerFilter(handler) {
+      this._parentElement.addEventListener("click", function (e) {
+        var btn = e.target.closest(".filter-btn ");
+        if (!btn) return; // Remove active class from siblings
+
+        _toConsumableArray(btn.parentElement.parentElement.children).forEach(function (sib) {
+          return sib.children[0].classList.remove("active");
+        });
+
+        btn.classList.add("active");
+        handler(btn.dataset.filter);
+      });
+    }
+  }, {
+    key: "_generateHtml",
+    value: function _generateHtml() {
+      this._parentElement.innerHTML = "";
+      return this._data.map(this._generateString).join("");
+    }
+  }, {
+    key: "_generateString",
+    value: function _generateString(filter) {
+      var _CHANNELS$filter;
+
+      return "\n    <li class=\"nav-item mr-2 mt-md-0\">\n    <button\n      class=\"btn btn-sm btn-light filter-btn \"\n      data-filter=\"".concat(filter, "\"\n    >\n    ").concat((_CHANNELS$filter = _config.CHANNELS[filter]) !== null && _CHANNELS$filter !== void 0 ? _CHANNELS$filter : "Cits", "\n    </button>\n  </li>");
+    }
+  }]);
+
+  return ChannelsView;
+}(_view.default);
+
+var _default = new ChannelsView();
+
+exports.default = _default;
+},{"../js/config":"src/js/config.js","./view":"src/views/view.js"}],"src/js/controller.js":[function(require,module,exports) {
 "use strict";
 
 require("regenerator-runtime/runtime");
@@ -19471,6 +19540,8 @@ var model = _interopRequireWildcard(require("./model"));
 var _feedView = _interopRequireDefault(require("../views/feedView"));
 
 var _bookmarksView = _interopRequireDefault(require("../views/bookmarksView"));
+
+var _channelsView = _interopRequireDefault(require("../views/channelsView"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19522,14 +19593,26 @@ var controlFeed = /*#__PURE__*/function () {
   };
 }();
 
-var controlFeedScroll = function controlFeedScroll(hash) {
-  _feedView.default.scrollToView(hash);
+var controlChannels = function controlChannels() {
+  // Render available channels buttons
+  _channelsView.default.render(model.state.channels);
+};
+
+var controlFilters = function controlFilters(filter) {
+  model.filter(filter);
+
+  _feedView.default.render(model.state.feed);
 };
 
 var controlBookmarks = function controlBookmarks() {
+  // Render bookmarks if in state
   _bookmarksView.default.render(model.state.bookmarks);
 
   if (model.state.bookmarks.length === 0) _bookmarksView.default.renderMessage();
+};
+
+var controlFeedScroll = function controlFeedScroll(hash) {
+  _feedView.default.scrollToView(hash);
 };
 
 var controlAddBookmark = function controlAddBookmark(id) {
@@ -19541,45 +19624,23 @@ var controlAddBookmark = function controlAddBookmark(id) {
     model.addBookmark(id);
   } else {
     model.deleteBookmark(id);
-  } // Push to view
-
+  }
 
   _bookmarksView.default.render(model.state.bookmarks);
 
-  if (model.state.bookmarks.length === 0) _bookmarksView.default.renderMessage(); // Updated article
+  if (model.state.bookmarks.length === 0) _bookmarksView.default.renderMessage();
 
   _feedView.default.render(model.state.feed);
 };
 
-var controlFilters = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(filter) {
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            model.filter(filter);
-
-            _feedView.default.render(model.state.feed);
-
-          case 2:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  }));
-
-  return function controlFilters(_x) {
-    return _ref2.apply(this, arguments);
-  };
-}();
-
 var init = function init() {
+  _channelsView.default.addHandlerRender(controlChannels);
+
   _bookmarksView.default.addHandlerRender(controlBookmarks);
 
   _feedView.default.addHandlerAddBookmark(controlAddBookmark);
 
-  _feedView.default.addHandlerFilter(controlFilters);
+  _channelsView.default.addHandlerFilter(controlFilters);
 
   _bookmarksView.default.addHandlerScrollInToView(controlFeedScroll);
 
@@ -19587,7 +19648,7 @@ var init = function init() {
 };
 
 init();
-},{"regenerator-runtime/runtime":"node_modules/regenerator-runtime/runtime.js","./model":"src/js/model.js","../views/feedView":"src/views/feedView.js","../views/bookmarksView":"src/views/bookmarksView.js"}],"src/js/main.js":[function(require,module,exports) {
+},{"regenerator-runtime/runtime":"node_modules/regenerator-runtime/runtime.js","./model":"src/js/model.js","../views/feedView":"src/views/feedView.js","../views/bookmarksView":"src/views/bookmarksView.js","../views/channelsView":"src/views/channelsView.js"}],"src/js/main.js":[function(require,module,exports) {
 "use strict";
 
 require("bootstrap");
@@ -19630,7 +19691,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33839" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35201" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

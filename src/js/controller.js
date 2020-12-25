@@ -2,6 +2,7 @@ import "regenerator-runtime/runtime";
 import * as model from "./model";
 import feedView from "../views/feedView";
 import bookmarksView from "../views/bookmarksView";
+import channelsView from "../views/channelsView";
 
 const controlFeed = async function () {
   try {
@@ -17,13 +18,24 @@ const controlFeed = async function () {
   }
 };
 
-const controlFeedScroll = function (hash) {
-  feedView.scrollToView(hash);
+const controlChannels = function () {
+  // Render available channels buttons
+  channelsView.render(model.state.channels);
+};
+
+const controlFilters = function (filter) {
+  model.filter(filter);
+  feedView.render(model.state.feed);
 };
 
 const controlBookmarks = function () {
+  // Render bookmarks if in state
   bookmarksView.render(model.state.bookmarks);
   if (model.state.bookmarks.length === 0) bookmarksView.renderMessage();
+};
+
+const controlFeedScroll = function (hash) {
+  feedView.scrollToView(hash);
 };
 
 const controlAddBookmark = function (id) {
@@ -34,24 +46,18 @@ const controlAddBookmark = function (id) {
     model.deleteBookmark(id);
   }
 
-  // Push to view
   bookmarksView.render(model.state.bookmarks);
 
   if (model.state.bookmarks.length === 0) bookmarksView.renderMessage();
 
-  // Updated article
-  feedView.render(model.state.feed);
-};
-
-const controlFilters = async function (filter) {
-  model.filter(filter);
   feedView.render(model.state.feed);
 };
 
 const init = function () {
+  channelsView.addHandlerRender(controlChannels);
   bookmarksView.addHandlerRender(controlBookmarks);
   feedView.addHandlerAddBookmark(controlAddBookmark);
-  feedView.addHandlerFilter(controlFilters);
+  channelsView.addHandlerFilter(controlFilters);
   bookmarksView.addHandlerScrollInToView(controlFeedScroll);
   controlFeed();
 };

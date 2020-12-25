@@ -3,23 +3,6 @@ import View from "./view";
 class FeedView extends View {
   _wrapper = document.getElementById("wrapper");
   _parentElement = document.querySelector(".feed");
-  _filters = document.querySelectorAll(".filter-btn");
-
-  addHandlerFilter(handler) {
-    this._filters.forEach((btns) => {
-      btns.addEventListener("click", function (e) {
-        const btn = e.target;
-        if (!btn) return;
-        // Remove active class from siblings
-        [...btn.parentElement.parentElement.children].forEach((sib) =>
-          sib.children[0].classList.remove("active")
-        );
-
-        btn.classList.add("active");
-        handler(btn.dataset.filter);
-      });
-    });
-  }
 
   addHandlerAddBookmark(handler) {
     this._parentElement.addEventListener("click", function (e) {
@@ -44,7 +27,8 @@ class FeedView extends View {
   }
 
   _generateString(article) {
-    return `
+    if (!article.filter)
+      return `
     <article class="col-xs-12 col-md-6 col-xl-3 py-3" id="${article.id}">
       <div class="card card-hover-shadow h-100">
         <img

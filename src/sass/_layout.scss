@@ -6,6 +6,15 @@
 
 nav {
   position: sticky;
+
+  .navbar-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .nav-item {
+    margin-top: 1em;
+  }
 }
 
 #wrapper {

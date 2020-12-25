@@ -14524,6 +14524,13 @@ h3 {
 nav {
   position: sticky;
 }
+nav .navbar-nav {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+nav .nav-item {
+  margin-top: 1em;
+}
 
 #wrapper {
   overflow: hidden;
