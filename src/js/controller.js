@@ -15,6 +15,7 @@ const controlFeed = async function () {
     feedView.render(model.state.feed);
   } catch (error) {
     console.log(error);
+    feedView.renderError();
   }
 };
 
@@ -40,7 +41,7 @@ const controlFeedScroll = function (hash) {
 
 const controlAddBookmark = function (id) {
   let index = model.state.bookmarks.findIndex((article) => article.id === +id);
-  if (index == -1) {
+  if (index === -1) {
     model.addBookmark(id);
   } else {
     model.deleteBookmark(id);

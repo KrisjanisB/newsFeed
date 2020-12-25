@@ -3,6 +3,7 @@ import View from "./view";
 class FeedView extends View {
   _wrapper = document.getElementById("wrapper");
   _parentElement = document.querySelector(".feed");
+  _error = "Diemžēl nav izdevies iegūt datus";
 
   addHandlerAddBookmark(handler) {
     this._parentElement.addEventListener("click", function (e) {

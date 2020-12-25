@@ -19008,7 +19008,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CHANNELS = exports.API_URL = void 0;
-var API_URL = "https://www.delfi.lv/misc/task_2020/";
+// export const API_URL = "https://www.delfi.lv/misc/task_2020/";
+var API_URL = "./data.json";
 exports.API_URL = API_URL;
 var CHANNELS = {
   0: "Visi",
@@ -19047,7 +19048,7 @@ var loadFeed = /*#__PURE__*/function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return fetch("./data.json");
+            return fetch(_config.API_URL);
 
           case 3:
             res = _context.sent;
@@ -19056,7 +19057,6 @@ var loadFeed = /*#__PURE__*/function () {
 
           case 6:
             data = _context.sent;
-            console.log(data);
             state.feed = data.map(function (article) {
               var bookmark = false;
 
@@ -19086,20 +19086,20 @@ var loadFeed = /*#__PURE__*/function () {
               };
             });
             console.log(state);
-            _context.next = 15;
+            _context.next = 14;
             break;
 
-          case 12:
-            _context.prev = 12;
+          case 11:
+            _context.prev = 11;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
 
-          case 15:
+          case 14:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 12]]);
+    }, _callee, null, [[0, 11]]);
   }));
 
   return function loadFeed() {
@@ -19112,19 +19112,9 @@ exports.loadFeed = loadFeed;
 var filter = function filter(_filter) {
   if (_filter != 0) state.feed.forEach(function (art) {
     if (art.channelID != _filter) art.filter = true;else art.filter = false;
-  }); // state.feed.sort((a, b) => {
-  //   if (a.channelID == filter) return -1;
-  //   return 0;
-  // });
-  else state.feed.forEach(function (art) {
-      art.filter = false;
-    }); // state.feed.sort((a, b) => {
-  //   if (a.publishedDate > b.publishedDate) return -1;
-  //   if (a.publishedDate < b.publishedDate) return 1;
-  //   return 0;
-  // });
-
-  console.log(state.feed);
+  });else state.feed.forEach(function (art) {
+    art.filter = false;
+  });
 };
 
 exports.filter = filter;
@@ -19140,8 +19130,7 @@ var addBookmark = function addBookmark(id) {
       art.bookmarked = true;
       return art;
     }
-  });
-  console.log(article); // Add bookmark to state
+  }); // Add bookmark to state
 
   state.bookmarks.push(article);
   persitBookmark();
@@ -19221,6 +19210,15 @@ var View = /*#__PURE__*/function () {
 
       this._parentElement.insertAdjacentHTML("afterbegin", markup);
     }
+  }, {
+    key: "renderError",
+    value: function renderError() {
+      var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._error;
+      var markup = "\n    <p class=\"text-center\">".concat(message, "</p>");
+      this._parentElement.innerHTML = "";
+
+      this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
   }]);
 
   return View;
@@ -19282,6 +19280,8 @@ var FeedView = /*#__PURE__*/function (_View) {
     _defineProperty(_assertThisInitialized(_this), "_wrapper", document.getElementById("wrapper"));
 
     _defineProperty(_assertThisInitialized(_this), "_parentElement", document.querySelector(".feed"));
+
+    _defineProperty(_assertThisInitialized(_this), "_error", "Diemžēl nav izdevies iegūt datus");
 
     return _this;
   }
@@ -19572,7 +19572,7 @@ var controlFeed = /*#__PURE__*/function () {
             // Push to view
             _feedView.default.render(model.state.feed);
 
-            _context.next = 10;
+            _context.next = 11;
             break;
 
           case 7:
@@ -19580,7 +19580,9 @@ var controlFeed = /*#__PURE__*/function () {
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
 
-          case 10:
+            _feedView.default.renderError();
+
+          case 11:
           case "end":
             return _context.stop();
         }
@@ -19620,7 +19622,7 @@ var controlAddBookmark = function controlAddBookmark(id) {
     return article.id === +id;
   });
 
-  if (index == -1) {
+  if (index === -1) {
     model.addBookmark(id);
   } else {
     model.deleteBookmark(id);
@@ -19691,7 +19693,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35201" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34045" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

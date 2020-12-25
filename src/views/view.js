@@ -39,4 +39,12 @@ export default class View {
     this._parentElement.innerHTML = "";
     this._parentElement.insertAdjacentHTML("afterbegin", markup);
   }
+
+  renderError(message = this._error) {
+    const markup = `
+    <p class="text-center">${message}</p>`;
+
+    this._parentElement.innerHTML = "";
+    this._parentElement.insertAdjacentHTML("afterbegin", markup);
+  }
 }

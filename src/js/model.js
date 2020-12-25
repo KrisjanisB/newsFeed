@@ -7,10 +7,10 @@ export const state = {
 
 export const loadFeed = async function () {
   try {
-    const res = await fetch("./data.json");
+    const res = await fetch(API_URL);
 
     const data = await res.json();
-    console.log(data);
+
     state.feed = data.map((article) => {
       let bookmark = false;
       if (state.bookmarks.length != 0) {
@@ -50,20 +50,10 @@ export const filter = function (filter) {
       if (art.channelID != filter) art.filter = true;
       else art.filter = false;
     });
-  // state.feed.sort((a, b) => {
-  //   if (a.channelID == filter) return -1;
-  //   return 0;
-  // });
   else
     state.feed.forEach((art) => {
       art.filter = false;
     });
-  // state.feed.sort((a, b) => {
-  //   if (a.publishedDate > b.publishedDate) return -1;
-  //   if (a.publishedDate < b.publishedDate) return 1;
-  //   return 0;
-  // });
-  console.log(state.feed);
 };
 
 const persitBookmark = function () {
@@ -78,7 +68,6 @@ export const addBookmark = function (id) {
       return art;
     }
   });
-  console.log(article);
   // Add bookmark to state
   state.bookmarks.push(article);
   persitBookmark();
