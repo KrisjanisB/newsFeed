@@ -88,9 +88,19 @@ export const deleteBookmark = function (id) {
   persitBookmark();
 };
 
+export const clearLocalStorage = function () {
+  state.bookmarks.forEach((bookmark) => {
+    state.feed.find((art) => {
+      if (bookmark.id === art.id) art.bookmarked = false;
+    });
+  });
+  state.bookmarks = [];
+  localStorage.clear();
+};
+
 const init = function () {
-  const storage = localStorage.getItem("bookmarks");
-  if (storage) state.bookmarks = JSON.parse(storage);
+  const storage = JSON.parse(localStorage.getItem("bookmarks"));
+  if (storage) state.bookmarks = storage;
 };
 
 init();

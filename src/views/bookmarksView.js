@@ -1,6 +1,7 @@
 import View from "./view";
 class BookmarksView extends View {
   _parentElement = document.querySelector(".bookmark-list");
+  _storageBtn = document.querySelector(".delete-storage");
   _message = "Vieta Jūsu favorītiem";
 
   addHandlerRender(handler) {
@@ -16,8 +17,14 @@ class BookmarksView extends View {
     });
   }
 
+  addHandlerClearStorage(handler) {
+    this._storageBtn.addEventListener("click", function () {
+      handler();
+    });
+  }
+
   _generateHtml() {
-    this._parentElement.innerHTML = "";
+    this._clearParentElement();
     return this._data.map(this._generateString).join("");
   }
 
@@ -34,6 +41,10 @@ class BookmarksView extends View {
       ${article.title}
       </p>
     </li>`;
+  }
+
+  _clearParentElement() {
+    this._parentElement.innerHTML = "";
   }
 }
 

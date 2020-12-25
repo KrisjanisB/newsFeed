@@ -10,14 +10,24 @@
   <body>
     <div class="d-flex" id="wrapper">
       <!-- Sidebar -->
-      <div class="bg-light border-right" id="sidebar-wrapper">
+      <div
+        class="bg-light border-right d-flex flex-column"
+        id="sidebar-wrapper"
+      >
         <div class="sidebar-heading d-flex justify-content-between">
           <h2>Delfi</h2>
           <div class="d-block d-sm-none">
             <button class="btn btn-light btn-sm menu-toggle">Arhīvs</button>
           </div>
         </div>
-        <ul class="list-group list-group-flush bookmark-list"></ul>
+        <ul class="list-group list-group-flush bookmark-list flex-grow-1"></ul>
+        <div>
+          <button
+            class="btn btn-sm btn-light btn-block rounded-0 delete-storage"
+          >
+            Dzēst arhīvu
+          </button>
+        </div>
       </div>
       <!-- /#sidebar-wrapper -->
 

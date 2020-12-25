@@ -19024,7 +19024,7 @@ exports.CHANNELS = CHANNELS;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteBookmark = exports.addBookmark = exports.filter = exports.loadFeed = exports.state = void 0;
+exports.clearLocalStorage = exports.deleteBookmark = exports.addBookmark = exports.filter = exports.loadFeed = exports.state = void 0;
 
 var _config = require("./config");
 
@@ -19155,9 +19155,21 @@ var deleteBookmark = function deleteBookmark(id) {
 
 exports.deleteBookmark = deleteBookmark;
 
+var clearLocalStorage = function clearLocalStorage() {
+  state.bookmarks.forEach(function (bookmark) {
+    state.feed.find(function (art) {
+      if (bookmark.id === art.id) art.bookmarked = false;
+    });
+  });
+  state.bookmarks = [];
+  localStorage.clear();
+};
+
+exports.clearLocalStorage = clearLocalStorage;
+
 var init = function init() {
-  var storage = localStorage.getItem("bookmarks");
-  if (storage) state.bookmarks = JSON.parse(storage);
+  var storage = JSON.parse(localStorage.getItem("bookmarks"));
+  if (storage) state.bookmarks = storage;
 };
 
 init();
@@ -19298,12 +19310,11 @@ var FeedView = /*#__PURE__*/function (_View) {
   }, {
     key: "scrollToView",
     value: function scrollToView(id) {
-      var top = document.getElementById(id).offsetTop;
-
       if (this._wrapper.classList.contains("toggled")) {
         this._wrapper.classList.remove("toggled");
       }
 
+      if (id > 0) var top = document.getElementById(id).offsetTop;
       document.getElementById("feed-container").scrollTo(0, top - 100);
     }
   }, {
@@ -19379,6 +19390,8 @@ var BookmarksView = /*#__PURE__*/function (_View) {
 
     _defineProperty(_assertThisInitialized(_this), "_parentElement", document.querySelector(".bookmark-list"));
 
+    _defineProperty(_assertThisInitialized(_this), "_storageBtn", document.querySelector(".delete-storage"));
+
     _defineProperty(_assertThisInitialized(_this), "_message", "Vieta Jūsu favorītiem");
 
     return _this;
@@ -19399,15 +19412,28 @@ var BookmarksView = /*#__PURE__*/function (_View) {
       });
     }
   }, {
+    key: "addHandlerClearStorage",
+    value: function addHandlerClearStorage(handler) {
+      this._storageBtn.addEventListener("click", function () {
+        handler();
+      });
+    }
+  }, {
     key: "_generateHtml",
     value: function _generateHtml() {
-      this._parentElement.innerHTML = "";
+      this._clearParentElement();
+
       return this._data.map(this._generateString).join("");
     }
   }, {
     key: "_generateString",
     value: function _generateString(article) {
       return "\n   <li class=\"bookmark-item list-group-item list-group-item-action bg-light d-flex justify-content-between align-items-center clickable\"\n    data-hash=\"".concat(article.id, "\">\n      <img\n        src=\"").concat(article.pictures.thumb, "\"\n        alt=\"\"\n        class=\"pr-2\"\n      />\n      <p class=\"bookmark-title flex-grow-1\">\n      ").concat(article.title, "\n      </p>\n    </li>");
+    }
+  }, {
+    key: "_clearParentElement",
+    value: function _clearParentElement() {
+      this._parentElement.innerHTML = "";
     }
   }]);
 
@@ -19627,14 +19653,26 @@ var controlAddBookmark = function controlAddBookmark(id) {
   _feedView.default.render(model.state.feed);
 };
 
+var controlStorage = function controlStorage() {
+  model.clearLocalStorage();
+
+  _bookmarksView.default.render(model.state.bookmarks);
+
+  _feedView.default.render(model.state.feed);
+
+  _feedView.default.scrollToView(0);
+};
+
 var init = function init() {
   _bookmarksView.default.addHandlerRender(controlBookmarks);
+
+  _bookmarksView.default.addHandlerScrollInToView(controlFeedScroll);
+
+  _bookmarksView.default.addHandlerClearStorage(controlStorage);
 
   _feedView.default.addHandlerAddBookmark(controlAddBookmark);
 
   _channelsView.default.addHandlerFilter(controlFilters);
-
-  _bookmarksView.default.addHandlerScrollInToView(controlFeedScroll);
 
   controlFeed();
 };
@@ -19683,7 +19721,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38095" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39767" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

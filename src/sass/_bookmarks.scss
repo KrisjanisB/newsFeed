@@ -5,6 +5,9 @@
   img {
     border-radius: 0.75em;
   }
+  &:hover {
+    color: #212529;
+  }
 }
 
 .bookmark-title {
@@ -17,7 +20,7 @@
 
   background: rgba(0, 0, 0, 0.6);
   margin: 0.2em;
-  padding: 0.3em 0.5em 0.1em 0.6em;
+  padding: 0.4em 0.6em 0.2em 0.7em;
   border-radius: 50%;
   color: $white;
   cursor: pointer;

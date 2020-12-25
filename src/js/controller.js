@@ -51,11 +51,20 @@ const controlAddBookmark = function (id) {
   feedView.render(model.state.feed);
 };
 
+const controlStorage = function () {
+  model.clearLocalStorage();
+  bookmarksView.render(model.state.bookmarks);
+  feedView.render(model.state.feed);
+  feedView.scrollToView(0);
+};
+
 const init = function () {
   bookmarksView.addHandlerRender(controlBookmarks);
+  bookmarksView.addHandlerScrollInToView(controlFeedScroll);
+  bookmarksView.addHandlerClearStorage(controlStorage);
   feedView.addHandlerAddBookmark(controlAddBookmark);
   channelsView.addHandlerFilter(controlFilters);
-  bookmarksView.addHandlerScrollInToView(controlFeedScroll);
+
   controlFeed();
 };
 
