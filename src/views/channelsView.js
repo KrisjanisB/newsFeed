@@ -4,11 +4,6 @@ import View from "./view";
 class ChannelsView extends View {
   _parentElement = document.querySelector(".channels");
 
-  addHandlerRender(handler) {
-    window.addEventListener("load", handler);
-    handler(handler);
-  }
-
   addHandlerFilter(handler) {
     this._parentElement.addEventListener("click", function (e) {
       const btn = e.target.closest(".filter-btn ");

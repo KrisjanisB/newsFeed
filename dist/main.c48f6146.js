@@ -19008,8 +19008,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CHANNELS = exports.API_URL = void 0;
-// export const API_URL = "https://www.delfi.lv/misc/task_2020/";
-var API_URL = "./data.json";
+var API_URL = "https://cors-anywhere.herokuapp.com/https://www.delfi.lv/misc/task_2020/"; // export const API_URL = "./data.json";
+
 exports.API_URL = API_URL;
 var CHANNELS = {
   0: "Visi",
@@ -19315,7 +19315,7 @@ var FeedView = /*#__PURE__*/function (_View) {
   }, {
     key: "_generateString",
     value: function _generateString(article) {
-      if (!article.filter) return "\n    <article class=\"col-xs-12 col-md-6 col-xl-3 py-3\" id=\"".concat(article.id, "\">\n      <div class=\"card card-hover-shadow h-100\">\n        <img\n          class=\"card-img-top\"\n          src=\"").concat(article.pictures.preview, "\"\n          alt=\"").concat(article.picturesAlt, "\"\n        />\n        <span class=\"bookmark-btn\" title=\"Sagalb\u0101t\" data-id=\"").concat(article.id, "\">\n          <i class=\"fa").concat(article.bookmarked ? "s" : "r", " fa-bookmark\"></i>\n        </span>\n        <div class=\"card-body d-flex flex-column justify-content-between\">\n          <h5 class=\"card-title\">").concat(article.title, "</h5>\n          <p class=\"d-none\">").concat(article.lead, "</p>\n          <a href=\"").concat(article.url, "\" class=\"btn btn-light btn-sm btn-block\" target=\"_blank\">\n            Las\u012Bt vair\u0101k\n          </a>\n        </div>\n      </div>\n    </article>");
+      if (!article.filter) return "\n    <article class=\"col-xs-12 col-md-6 col-xl-3 py-3\" id=\"".concat(article.id, "\">\n      <div class=\"card card-hover-shadow h-100\">\n        <img\n          class=\"card-img-top\"\n          src=\"").concat(article.pictures.preview, "\"\n          alt=\"").concat(article.pictureAlt, "\n          loading=\"lazy\" \"\n        />\n        <span class=\"bookmark-btn\" title=\"Sagalb\u0101t\" data-id=\"").concat(article.id, "\">\n          <i class=\"fa").concat(article.bookmarked ? "s" : "r", " fa-bookmark\"></i>\n        </span>\n        <div class=\"card-body d-flex flex-column justify-content-between\">\n          <h5 class=\"card-title\">").concat(article.title, "</h5>\n          <p class=\"d-none\">").concat(article.lead, "</p>\n          <a href=\"").concat(article.url, "\" class=\"btn btn-light btn-sm btn-block\" target=\"_blank\">\n            Las\u012Bt vair\u0101k\n          </a>\n        </div>\n      </div>\n    </article>");
     }
   }]);
 
@@ -19489,12 +19489,6 @@ var ChannelsView = /*#__PURE__*/function (_View) {
   }
 
   _createClass(ChannelsView, [{
-    key: "addHandlerRender",
-    value: function addHandlerRender(handler) {
-      window.addEventListener("load", handler);
-      handler(handler);
-    }
-  }, {
     key: "addHandlerFilter",
     value: function addHandlerFilter(handler) {
       this._parentElement.addEventListener("click", function (e) {
@@ -19570,35 +19564,33 @@ var controlFeed = /*#__PURE__*/function () {
 
           case 4:
             // Push to view
-            _feedView.default.render(model.state.feed);
+            _feedView.default.render(model.state.feed); // Render Channel filters
 
-            _context.next = 11;
+
+            _channelsView.default.render(model.state.channels);
+
+            _context.next = 12;
             break;
 
-          case 7:
-            _context.prev = 7;
+          case 8:
+            _context.prev = 8;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
 
             _feedView.default.renderError();
 
-          case 11:
+          case 12:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 7]]);
+    }, _callee, null, [[0, 8]]);
   }));
 
   return function controlFeed() {
     return _ref.apply(this, arguments);
   };
 }();
-
-var controlChannels = function controlChannels() {
-  // Render available channels buttons
-  _channelsView.default.render(model.state.channels);
-};
 
 var controlFilters = function controlFilters(filter) {
   model.filter(filter);
@@ -19636,8 +19628,6 @@ var controlAddBookmark = function controlAddBookmark(id) {
 };
 
 var init = function init() {
-  _channelsView.default.addHandlerRender(controlChannels);
-
   _bookmarksView.default.addHandlerRender(controlBookmarks);
 
   _feedView.default.addHandlerAddBookmark(controlAddBookmark);
@@ -19693,7 +19683,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34045" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38095" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

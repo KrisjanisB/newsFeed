@@ -10,18 +10,15 @@ const controlFeed = async function () {
     feedView.spinner();
     // Load data
     await model.loadFeed();
-    // Push to view
 
+    // Push to view
     feedView.render(model.state.feed);
+    // Render Channel filters
+    channelsView.render(model.state.channels);
   } catch (error) {
     console.log(error);
     feedView.renderError();
   }
-};
-
-const controlChannels = function () {
-  // Render available channels buttons
-  channelsView.render(model.state.channels);
 };
 
 const controlFilters = function (filter) {
@@ -55,7 +52,6 @@ const controlAddBookmark = function (id) {
 };
 
 const init = function () {
-  channelsView.addHandlerRender(controlChannels);
   bookmarksView.addHandlerRender(controlBookmarks);
   feedView.addHandlerAddBookmark(controlAddBookmark);
   channelsView.addHandlerFilter(controlFilters);

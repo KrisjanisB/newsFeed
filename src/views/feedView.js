@@ -35,7 +35,8 @@ class FeedView extends View {
         <img
           class="card-img-top"
           src="${article.pictures.preview}"
-          alt="${article.picturesAlt}"
+          alt="${article.pictureAlt}
+          loading="lazy" "
         />
         <span class="bookmark-btn" title="Sagalbāt" data-id="${article.id}">
           <i class="fa${article.bookmarked ? "s" : "r"} fa-bookmark"></i>
