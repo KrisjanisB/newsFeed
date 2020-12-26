@@ -13,7 +13,7 @@ const controlFeed = async function () {
 
     // Push to view
     feedView.render(model.state.feed);
-    // Render Channel filters
+    // Render Channel filters in nav
     channelsView.render(model.state.channels);
   } catch (error) {
     console.log(error);
@@ -28,8 +28,8 @@ const controlFilters = function (filter) {
 
 const controlBookmarks = function () {
   // Render bookmarks if in state
-  bookmarksView.render(model.state.bookmarks);
   if (model.state.bookmarks.length === 0) bookmarksView.renderMessage();
+  else bookmarksView.render(model.state.bookmarks);
 };
 
 const controlFeedScroll = function (hash) {
@@ -44,9 +44,8 @@ const controlAddBookmark = function (id) {
     model.deleteBookmark(id);
   }
 
-  bookmarksView.render(model.state.bookmarks);
-
   if (model.state.bookmarks.length === 0) bookmarksView.renderMessage();
+  else bookmarksView.render(model.state.bookmarks);
 
   feedView.render(model.state.feed);
 };
@@ -59,13 +58,12 @@ const controlStorage = function () {
 };
 
 const init = function () {
+  controlFeed();
   bookmarksView.addHandlerRender(controlBookmarks);
   bookmarksView.addHandlerScrollInToView(controlFeedScroll);
   bookmarksView.addHandlerClearStorage(controlStorage);
   feedView.addHandlerAddBookmark(controlAddBookmark);
   channelsView.addHandlerFilter(controlFilters);
-
-  controlFeed();
 };
 
 init();

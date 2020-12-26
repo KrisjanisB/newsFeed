@@ -1,6 +1,6 @@
 import "bootstrap";
 import "./controller";
-
+console.log("main");
 window.addEventListener("load", function () {
   const togglers = document.querySelectorAll(".menu-toggle");
 

@@ -14612,19 +14612,20 @@ nav .nav-item {
   color: #007bff;
 }
 
-.bg-light {
-  background-color: #fff !important;
+@media (hover: hover) {
+  .bookmark-btn {
+    opacity: 0;
+  }
 }
-
-.clickable {
-  cursor: pointer;
-}
-
 article img {
   width: 100%;
   max-width: 300px;
   max-height: 200px;
   object-fit: cover;
+}
+article:hover .bookmark-btn {
+  opacity: 1;
+  transition: 1s opacity;
 }
 
 .card {
@@ -14637,6 +14638,14 @@ article img {
   padding: 0.2em;
   background-color: yellow;
   display: inline;
+}
+
+.bg-light {
+  background-color: #fff !important;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=/main.2026268b.css.map */

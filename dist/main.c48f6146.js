@@ -19429,7 +19429,7 @@ var BookmarksView = /*#__PURE__*/function (_View) {
   }, {
     key: "_generateString",
     value: function _generateString(article) {
-      return "\n   <li class=\"bookmark-item list-group-item list-group-item-action bg-light d-flex justify-content-between align-items-center clickable\"\n    data-hash=\"".concat(article.id, "\">\n      <img\n        src=\"").concat(article.pictures.thumb, "\"\n        alt=\"\"\n        class=\"pr-2\"\n      />\n      <p class=\"bookmark-title flex-grow-1\">\n      ").concat(article.title, "\n      </p>\n    </li>");
+      return "\n   <li class=\"bookmark-item list-group-item list-group-item-action bg-light d-flex justify-content-between align-items-center clickable\"\n    data-hash=\"".concat(article.id, "\">\n      <img\n        src=\"").concat(article.pictures.thumb, "\"\n        alt=\"\"\n        class=\"pr-2\"\n      />\n      <p class=\"bookmark-title  flex-grow-1\">\n      ").concat(article.title, "\n      </p>\n    </li>");
     }
   }, {
     key: "_clearParentElement",
@@ -19591,7 +19591,7 @@ var controlFeed = /*#__PURE__*/function () {
 
           case 4:
             // Push to view
-            _feedView.default.render(model.state.feed); // Render Channel filters
+            _feedView.default.render(model.state.feed); // Render Channel filters in nav
 
 
             _channelsView.default.render(model.state.channels);
@@ -19627,9 +19627,7 @@ var controlFilters = function controlFilters(filter) {
 
 var controlBookmarks = function controlBookmarks() {
   // Render bookmarks if in state
-  _bookmarksView.default.render(model.state.bookmarks);
-
-  if (model.state.bookmarks.length === 0) _bookmarksView.default.renderMessage();
+  if (model.state.bookmarks.length === 0) _bookmarksView.default.renderMessage();else _bookmarksView.default.render(model.state.bookmarks);
 };
 
 var controlFeedScroll = function controlFeedScroll(hash) {
@@ -19647,9 +19645,7 @@ var controlAddBookmark = function controlAddBookmark(id) {
     model.deleteBookmark(id);
   }
 
-  _bookmarksView.default.render(model.state.bookmarks);
-
-  if (model.state.bookmarks.length === 0) _bookmarksView.default.renderMessage();
+  if (model.state.bookmarks.length === 0) _bookmarksView.default.renderMessage();else _bookmarksView.default.render(model.state.bookmarks);
 
   _feedView.default.render(model.state.feed);
 };
@@ -19665,6 +19661,8 @@ var controlStorage = function controlStorage() {
 };
 
 var init = function init() {
+  controlFeed();
+
   _bookmarksView.default.addHandlerRender(controlBookmarks);
 
   _bookmarksView.default.addHandlerScrollInToView(controlFeedScroll);
@@ -19674,8 +19672,6 @@ var init = function init() {
   _feedView.default.addHandlerAddBookmark(controlAddBookmark);
 
   _channelsView.default.addHandlerFilter(controlFilters);
-
-  controlFeed();
 };
 
 init();
@@ -19686,6 +19682,7 @@ require("bootstrap");
 
 require("./controller");
 
+console.log("main");
 window.addEventListener("load", function () {
   var togglers = document.querySelectorAll(".menu-toggle");
   togglers.forEach(function (toggler) {
@@ -19722,7 +19719,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41419" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33181" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -20,8 +20,13 @@
   border-radius: 50%;
   color: $white;
   cursor: pointer;
-
   &:hover {
     color: $primary;
+  }
+}
+
+@media (hover: hover) {
+  .bookmark-btn {
+    opacity: 0;
   }
 }

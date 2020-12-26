@@ -37,7 +37,7 @@ class BookmarksView extends View {
         alt=""
         class="pr-2"
       />
-      <p class="bookmark-title flex-grow-1">
+      <p class="bookmark-title  flex-grow-1">
       ${article.title}
       </p>
     </li>`;

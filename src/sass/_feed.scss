@@ -1,0 +1,29 @@
+// FEED
+article {
+  img {
+    width: 100%;
+    max-width: 300px;
+    max-height: 200px;
+    object-fit: cover;
+  }
+
+  &:hover .bookmark-btn {
+    opacity: 1;
+    transition: 1s opacity;
+  }
+}
+
+.card {
+  // box-shadow: 0 6px 12px rgba(140, 152, 164, 0.075);
+  border: none;
+
+  .card-body {
+    padding-top: 5px;
+
+    .card-title {
+      padding: 0.2em;
+      background-color: yellow;
+      display: inline;
+    }
+  }
+}
