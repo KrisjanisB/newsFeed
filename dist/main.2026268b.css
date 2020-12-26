@@ -14590,9 +14590,6 @@ nav .nav-item {
 .bookmark-item {
   border-width: 0 !important;
 }
-.bookmark-item img {
-  border-radius: 0.75em;
-}
 .bookmark-item:hover {
   color: #212529;
 }
@@ -14603,10 +14600,10 @@ nav .nav-item {
 
 .bookmark-btn {
   position: absolute;
-  right: 0;
-  background: rgba(0, 0, 0, 0.6);
-  margin: 0.2em;
-  padding: 0.4em 0.6em 0.2em 0.7em;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.44);
+  margin: 0.3em;
+  padding: 0.4em 0.6em 0.2em 0.6em;
   border-radius: 50%;
   color: #fff;
   cursor: pointer;
@@ -14623,20 +14620,23 @@ nav .nav-item {
   cursor: pointer;
 }
 
-.card {
-  box-shadow: 0 6px 12px rgba(140, 152, 164, 0.075);
-  border-radius: 0.75em;
-}
-.card img {
-  border-top-left-radius: 0.75em;
-  border-top-right-radius: 0.75em;
+article img {
+  width: 100%;
+  max-width: 300px;
+  max-height: 200px;
+  object-fit: cover;
 }
 
-.card-hover-shadow {
-  transition: 0.3s;
+.card {
+  border: none;
 }
-.card-hover-shadow:hover {
-  box-shadow: 0 6px 12px rgba(140, 152, 164, 0.25) !important;
+.card .card-body {
+  padding-top: 5px;
+}
+.card .card-body .card-title {
+  padding: 0.2em;
+  background-color: yellow;
+  display: inline;
 }
 
 /*# sourceMappingURL=/main.2026268b.css.map */

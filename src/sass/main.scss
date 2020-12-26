@@ -18,20 +18,28 @@ $theme-colors: (
   cursor: pointer;
 }
 
-// CARDS
+// FEED
 
-.card {
-  box-shadow: 0 6px 12px rgba(140, 152, 164, 0.075);
-  border-radius: 0.75em;
-
+article {
   img {
-    border-top-left-radius: 0.75em;
-    border-top-right-radius: 0.75em;
+    width: 100%;
+    max-width: 300px;
+    max-height: 200px;
+    object-fit: cover;
   }
 }
-.card-hover-shadow {
-  transition: 0.3s;
-  &:hover {
-    box-shadow: 0 6px 12px rgba(140, 152, 164, 0.25) !important;
+
+.card {
+  // box-shadow: 0 6px 12px rgba(140, 152, 164, 0.075);
+  border: none;
+
+  .card-body {
+    padding-top: 5px;
+
+    .card-title {
+      padding: 0.2em;
+      background-color: yellow;
+      display: inline;
+    }
   }
 }

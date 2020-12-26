@@ -2,9 +2,6 @@
 
 .bookmark-item {
   border-width: 0 !important;
-  img {
-    border-radius: 0.75em;
-  }
   &:hover {
     color: #212529;
   }
@@ -16,11 +13,10 @@
 
 .bookmark-btn {
   position: absolute;
-  right: 0;
-
-  background: rgba(0, 0, 0, 0.6);
-  margin: 0.2em;
-  padding: 0.4em 0.6em 0.2em 0.7em;
+  right: 12px;
+  background: rgb(0 0 0 / 44%);
+  margin: 0.3em;
+  padding: 0.4em 0.6em 0.2em 0.6em;
   border-radius: 50%;
   color: $white;
   cursor: pointer;

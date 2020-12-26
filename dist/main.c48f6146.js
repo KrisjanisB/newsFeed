@@ -19008,8 +19008,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CHANNELS = exports.API_URL = void 0;
-var API_URL = "https://cors-anywhere.herokuapp.com/https://www.delfi.lv/misc/task_2020/"; // export const API_URL = "./data.json";
-
+// export const API_URL =
+//   "https://cors-anywhere.herokuapp.com/https://www.delfi.lv/misc/task_2020/";
+var API_URL = "./data.json";
 exports.API_URL = API_URL;
 var CHANNELS = {
   0: "Visi",
@@ -19326,7 +19327,7 @@ var FeedView = /*#__PURE__*/function (_View) {
   }, {
     key: "_generateString",
     value: function _generateString(article) {
-      if (!article.filter) return "\n    <article class=\"col-xs-12 col-md-6 col-xl-3 py-3\" id=\"".concat(article.id, "\">\n      <div class=\"card card-hover-shadow h-100\">\n        <img\n          class=\"card-img-top\"\n          src=\"").concat(article.pictures.preview, "\"\n          alt=\"").concat(article.pictureAlt, "\n          loading=\"lazy\" \"\n        />\n        <span class=\"bookmark-btn\" title=\"Sagalb\u0101t\" data-id=\"").concat(article.id, "\">\n          <i class=\"fa").concat(article.bookmarked ? "s" : "r", " fa-bookmark\"></i>\n        </span>\n        <div class=\"card-body d-flex flex-column justify-content-between\">\n          <h5 class=\"card-title\">").concat(article.title, "</h5>\n          <p class=\"d-none\">").concat(article.lead, "</p>\n          <a href=\"").concat(article.url, "\" class=\"btn btn-light btn-sm btn-block\" target=\"_blank\">\n            Las\u012Bt vair\u0101k\n          </a>\n        </div>\n      </div>\n    </article>");
+      if (!article.filter) return "\n    <article class=\"py-3 \" id=\"".concat(article.id, "\">\n        <div class=\"card  no-gutter\" >\n          <div class=\"row \">\n            <div class=\"col-lg-4 d-flex justify-content-center \">\n              <img  src=\"").concat(article.pictures.preview, "\"\n              alt=\"").concat(article.pictureAlt, " class=\"card-img\" >\n\n            </div>\n            <div class=\"col-lg-8\">\n              <div class=\"card-body\">\n                <h5 class=\"card-title\">").concat(article.title, "</h5>\n                <p class=\"card-text pt-3\">").concat(article.lead, "</p>\n                <a href=\"").concat(article.url, "\" class=\"btn btn-light btn-sm btn-block\" target=\"_blank\">\n                  Las\u012Bt vair\u0101k\n                </a>\n              </div>\n            </div>\n          </div>\n            <span class=\"bookmark-btn\" title=\"Sagalb\u0101t\" data-id=\"").concat(article.id, "\">\n            <i class=\"fa").concat(article.bookmarked ? "s" : "r", " fa-bookmark\"></i>\n          </span>\n      </div>\n    </article>");
     }
   }]);
 
@@ -19721,7 +19722,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39767" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41419" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
