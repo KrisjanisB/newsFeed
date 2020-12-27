@@ -1,8 +1,12 @@
 import { API_URL } from "./config";
+import jQuery from "jquery";
+
+window.$ = window.jQuery = jQuery;
 export const state = {
   feed: {},
   bookmarks: [],
   channels: [0].sort(),
+  user: "",
 };
 
 export const loadFeed = async function () {
@@ -42,6 +46,10 @@ export const loadFeed = async function () {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const loadUser = function (user) {
+  state.user = user.name;
 };
 
 export const filter = function (filter) {
@@ -99,6 +107,8 @@ export const clearLocalStorage = function () {
 };
 
 const init = function () {
+  $("#UsernameModal").modal();
+
   const storage = JSON.parse(localStorage.getItem("bookmarks"));
   if (storage) state.bookmarks = storage;
 };

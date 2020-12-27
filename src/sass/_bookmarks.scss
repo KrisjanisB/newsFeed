@@ -13,20 +13,29 @@
 
 .bookmark-btn {
   position: absolute;
-  right: 12px;
-  background: rgb(0 0 0 / 44%);
+  right: 4px;
+  background: yellow;
+  color: rgb(0 0 0 / 44%);
   margin: 0.3em;
   padding: 0.4em 0.6em 0.2em 0.6em;
   border-radius: 50%;
-  color: $white;
+
   cursor: pointer;
-  &:hover {
-    color: $primary;
-  }
 }
 
 @media (hover: hover) {
   .bookmark-btn {
     opacity: 0;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .bookmark-btn {
+    background: rgb(0 0 0 / 44%);
+    color: $white;
   }
 }

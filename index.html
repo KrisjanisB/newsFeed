@@ -14,7 +14,7 @@
         id="sidebar-wrapper"
       >
         <div class="sidebar-heading d-flex justify-content-between">
-          <h2>Delfi</h2>
+          <h4 class="username" style="min-height: 15px"></h4>
           <div class="d-block d-md-none">
             <button class="btn btn-light btn-sm menu-toggle">Arhīvs</button>
           </div>
@@ -22,7 +22,10 @@
         <ul class="list-group list-group-flush bookmark-list flex-grow-1"></ul>
         <div>
           <button
-            class="btn btn-sm btn-light btn-block rounded-0 delete-storage"
+            class="btn btn-sm btn-light btn-block rounded-0"
+            data-toggle="modal"
+            data-target="#deleteArchive"
+            type="button"
           >
             Dzēst arhīvu
           </button>
@@ -59,37 +62,71 @@
       </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Delete Archive Modal -->
     <div
       class="modal fade"
-      id="exampleModal"
+      id="deleteArchive"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="deleteArchiveLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <h5 class="modal-title" id="deleteArchiveLabel">
+              Vai vēlies dzēst arhīvu?
+            </h5>
+            <div>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Aizvērt
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger delete-storage"
+                data-dismiss="modal"
+              >
+                Dzēst
+              </button>
+            </div>
           </div>
-          <div class="modal-body">...</div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+    <!-- Login Modal -->
+    <div
+      class="modal fade"
+      id="UsernameModal"
+      tabindex="-1"
+      aria-labelledby="UsernameModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <form class="login">
+              <div class="row">
+                <div class="col-8">
+                  <input
+                    autofocus
+                    type="text"
+                    class="form-control"
+                    placeholder="Ievadi savu vārdu"
+                    name="name"
+                    id="inputUsername"
+                    onkeydown="this.my_no_focus = true;"
+                  />
+                </div>
+                <div class="col-4">
+                  <button type="submit" class="btn btn-primary btn-block">
+                    Ienākt
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>

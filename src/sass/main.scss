@@ -18,3 +18,12 @@ $theme-colors: (
 .clickable {
   cursor: pointer;
 }
+
+.img-loading {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  background-image: url("../img/loading-img.gif");
+  min-width: 50px;
+  min-height: 50px;
+}

@@ -33,9 +33,9 @@ class FeedView extends View {
     <article class="py-3 " id="${article.id}">
         <div class="card  no-gutter" >
           <div class="row ">
-            <div class="col-lg-4 d-flex justify-content-center ">
+            <div class="col-lg-4 d-flex justify-content-center">
               <img  src="${article.pictures.preview}"
-              alt="${article.pictureAlt} class="card-img" >
+              alt="${article.pictureAlt}" class="card-img img-loading">
 
             </div>
             <div class="col-lg-8">

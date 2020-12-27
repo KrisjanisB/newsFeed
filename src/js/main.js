@@ -1,6 +1,10 @@
 import "bootstrap";
 import "./controller";
-console.log("main");
+
+window.addEventListener("keydown", function () {
+  document.querySelector("#inputUsername").focus();
+});
+
 window.addEventListener("load", function () {
   const togglers = document.querySelectorAll(".menu-toggle");
 

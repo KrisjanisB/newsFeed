@@ -19025,18 +19025,24 @@ exports.CHANNELS = CHANNELS;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.clearLocalStorage = exports.deleteBookmark = exports.addBookmark = exports.filter = exports.loadFeed = exports.state = void 0;
+exports.clearLocalStorage = exports.deleteBookmark = exports.addBookmark = exports.filter = exports.loadUser = exports.loadFeed = exports.state = void 0;
 
 var _config = require("./config");
+
+var _jquery = _interopRequireDefault(require("jquery"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+window.$ = window.jQuery = _jquery.default;
 var state = {
   feed: {},
   bookmarks: [],
-  channels: [0].sort()
+  channels: [0].sort(),
+  user: ""
 };
 exports.state = state;
 
@@ -19110,6 +19116,12 @@ var loadFeed = /*#__PURE__*/function () {
 
 exports.loadFeed = loadFeed;
 
+var loadUser = function loadUser(user) {
+  state.user = user.name;
+};
+
+exports.loadUser = loadUser;
+
 var filter = function filter(_filter) {
   if (_filter != 0) state.feed.forEach(function (art) {
     if (art.channelID != _filter) art.filter = true;else art.filter = false;
@@ -19169,12 +19181,13 @@ var clearLocalStorage = function clearLocalStorage() {
 exports.clearLocalStorage = clearLocalStorage;
 
 var init = function init() {
+  $("#UsernameModal").modal();
   var storage = JSON.parse(localStorage.getItem("bookmarks"));
   if (storage) state.bookmarks = storage;
 };
 
 init();
-},{"./config":"src/js/config.js"}],"src/views/view.js":[function(require,module,exports) {
+},{"./config":"src/js/config.js","jquery":"node_modules/jquery/dist/jquery.js"}],"src/views/view.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19209,7 +19222,7 @@ var View = /*#__PURE__*/function () {
   }, {
     key: "spinner",
     value: function spinner() {
-      var markup = "\n    <div class=\"spinner-grow text-primary\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-secondary\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-success\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-danger\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-warning\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-info\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>";
+      var markup = "\n    <div class=\"spinner-grow text-primary mr-3 mr-md-5\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-secondary mr-3 mr-md-5\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-success mr-3 mr-md-5\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-danger mr-3 mr-md-5\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-warning mr-3 mr-md-5\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-info mr-3 mr-md-5\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>";
       this._parentElement.innerHtml = "";
 
       this._parentElement.insertAdjacentHTML("afterbegin", markup);
@@ -19327,7 +19340,7 @@ var FeedView = /*#__PURE__*/function (_View) {
   }, {
     key: "_generateString",
     value: function _generateString(article) {
-      if (!article.filter) return "\n    <article class=\"py-3 \" id=\"".concat(article.id, "\">\n        <div class=\"card  no-gutter\" >\n          <div class=\"row \">\n            <div class=\"col-lg-4 d-flex justify-content-center \">\n              <img  src=\"").concat(article.pictures.preview, "\"\n              alt=\"").concat(article.pictureAlt, " class=\"card-img\" >\n\n            </div>\n            <div class=\"col-lg-8\">\n              <div class=\"card-body\">\n                <h5 class=\"card-title\">").concat(article.title, "</h5>\n                <p class=\"card-text pt-3\">").concat(article.lead, "</p>\n                <a href=\"").concat(article.url, "\" class=\"btn btn-light btn-sm btn-block\" target=\"_blank\">\n                  Las\u012Bt vair\u0101k\n                </a>\n              </div>\n            </div>\n          </div>\n            <span class=\"bookmark-btn\" title=\"Sagalb\u0101t\" data-id=\"").concat(article.id, "\">\n            <i class=\"fa").concat(article.bookmarked ? "s" : "r", " fa-bookmark\"></i>\n          </span>\n      </div>\n    </article>");
+      if (!article.filter) return "\n    <article class=\"py-3 \" id=\"".concat(article.id, "\">\n        <div class=\"card  no-gutter\" >\n          <div class=\"row \">\n            <div class=\"col-lg-4 d-flex justify-content-center\">\n              <img  src=\"").concat(article.pictures.preview, "\"\n              alt=\"").concat(article.pictureAlt, "\" class=\"card-img img-loading\">\n\n            </div>\n            <div class=\"col-lg-8\">\n              <div class=\"card-body\">\n                <h5 class=\"card-title\">").concat(article.title, "</h5>\n                <p class=\"card-text pt-3\">").concat(article.lead, "</p>\n                <a href=\"").concat(article.url, "\" class=\"btn btn-light btn-sm btn-block\" target=\"_blank\">\n                  Las\u012Bt vair\u0101k\n                </a>\n              </div>\n            </div>\n          </div>\n            <span class=\"bookmark-btn\" title=\"Sagalb\u0101t\" data-id=\"").concat(article.id, "\">\n            <i class=\"fa").concat(article.bookmarked ? "s" : "r", " fa-bookmark\"></i>\n          </span>\n      </div>\n    </article>");
     }
   }]);
 
@@ -19429,7 +19442,7 @@ var BookmarksView = /*#__PURE__*/function (_View) {
   }, {
     key: "_generateString",
     value: function _generateString(article) {
-      return "\n   <li class=\"bookmark-item list-group-item list-group-item-action bg-light d-flex justify-content-between align-items-center clickable\"\n    data-hash=\"".concat(article.id, "\">\n      <img\n        src=\"").concat(article.pictures.thumb, "\"\n        alt=\"\"\n        class=\"pr-2\"\n      />\n      <p class=\"bookmark-title  flex-grow-1\">\n      ").concat(article.title, "\n      </p>\n    </li>");
+      return "\n   <li class=\"bookmark-item list-group-item list-group-item-action bg-light d-flex justify-content-between align-items-center clickable  \"\n    data-hash=\"".concat(article.id, "\">\n    <div class=\"col-3 img-loading pl-0 pr-2 \">\n      <img\n        src=\"").concat(article.pictures.thumb, "\"\n        alt=\"").concat(article.pictureAlt, "\"\n        class=\"\"\n      />\n      </div>\n     <div class=\"col-auto pr-md-0\"> <p class=\"bookmark-title  flex-grow-1\"></div>\n      ").concat(article.title, "\n      </p>\n    </li>");
     }
   }, {
     key: "_clearParentElement",
@@ -19551,7 +19564,105 @@ var ChannelsView = /*#__PURE__*/function (_View) {
 var _default = new ChannelsView();
 
 exports.default = _default;
-},{"../js/config":"src/js/config.js","./view":"src/views/view.js"}],"src/js/controller.js":[function(require,module,exports) {
+},{"../js/config":"src/js/config.js","./view":"src/views/view.js"}],"src/views/userView.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _view = _interopRequireDefault(require("./view"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var UserView = /*#__PURE__*/function (_View) {
+  _inherits(UserView, _View);
+
+  var _super = _createSuper(UserView);
+
+  function UserView() {
+    var _this;
+
+    _classCallCheck(this, UserView);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty(_assertThisInitialized(_this), "_parentElement", document.querySelector(".username"));
+
+    _defineProperty(_assertThisInitialized(_this), "_loginForm", document.querySelector(".login"));
+
+    return _this;
+  }
+
+  _createClass(UserView, [{
+    key: "addHandlerLogin",
+    value: function addHandlerLogin(handler) {
+      this._loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        $("#UsernameModal").modal("hide");
+
+        var dataArr = _toConsumableArray(new FormData(this));
+
+        var data = Object.fromEntries(dataArr);
+        handler(data);
+      });
+    }
+  }, {
+    key: "_generateHtml",
+    value: function _generateHtml() {
+      this._parentElement.innerHTML = "";
+      return "<span>Sveiks, ".concat(this._data, " !</span>");
+    }
+  }]);
+
+  return UserView;
+}(_view.default);
+
+var _default = new UserView();
+
+exports.default = _default;
+},{"./view":"src/views/view.js"}],"src/js/controller.js":[function(require,module,exports) {
 "use strict";
 
 require("regenerator-runtime/runtime");
@@ -19563,6 +19674,8 @@ var _feedView = _interopRequireDefault(require("../views/feedView"));
 var _bookmarksView = _interopRequireDefault(require("../views/bookmarksView"));
 
 var _channelsView = _interopRequireDefault(require("../views/channelsView"));
+
+var _userView = _interopRequireDefault(require("../views/userView"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19650,7 +19763,13 @@ var controlAddBookmark = function controlAddBookmark(id) {
   _feedView.default.render(model.state.feed);
 };
 
-var controlStorage = function controlStorage() {
+var controlLogin = function controlLogin(user) {
+  model.loadUser(user);
+
+  _userView.default.render(model.state.user);
+};
+
+var controlClearStorage = function controlClearStorage() {
   model.clearLocalStorage();
 
   _bookmarksView.default.render(model.state.bookmarks);
@@ -19667,7 +19786,9 @@ var init = function init() {
 
   _bookmarksView.default.addHandlerScrollInToView(controlFeedScroll);
 
-  _bookmarksView.default.addHandlerClearStorage(controlStorage);
+  _bookmarksView.default.addHandlerClearStorage(controlClearStorage);
+
+  _userView.default.addHandlerLogin(controlLogin);
 
   _feedView.default.addHandlerAddBookmark(controlAddBookmark);
 
@@ -19675,14 +19796,16 @@ var init = function init() {
 };
 
 init();
-},{"regenerator-runtime/runtime":"node_modules/regenerator-runtime/runtime.js","./model":"src/js/model.js","../views/feedView":"src/views/feedView.js","../views/bookmarksView":"src/views/bookmarksView.js","../views/channelsView":"src/views/channelsView.js"}],"src/js/main.js":[function(require,module,exports) {
+},{"regenerator-runtime/runtime":"node_modules/regenerator-runtime/runtime.js","./model":"src/js/model.js","../views/feedView":"src/views/feedView.js","../views/bookmarksView":"src/views/bookmarksView.js","../views/channelsView":"src/views/channelsView.js","../views/userView":"src/views/userView.js"}],"src/js/main.js":[function(require,module,exports) {
 "use strict";
 
 require("bootstrap");
 
 require("./controller");
 
-console.log("main");
+window.addEventListener("keydown", function () {
+  document.querySelector("#inputUsername").focus();
+});
 window.addEventListener("load", function () {
   var togglers = document.querySelectorAll(".menu-toggle");
   togglers.forEach(function (toggler) {
@@ -19719,7 +19842,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33181" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39773" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

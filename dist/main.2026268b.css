@@ -14600,21 +14600,27 @@ nav .nav-item {
 
 .bookmark-btn {
   position: absolute;
-  right: 12px;
-  background: rgba(0, 0, 0, 0.44);
+  right: 4px;
+  background: yellow;
+  color: rgba(0, 0, 0, 0.44);
   margin: 0.3em;
   padding: 0.4em 0.6em 0.2em 0.6em;
   border-radius: 50%;
-  color: #fff;
   cursor: pointer;
-}
-.bookmark-btn:hover {
-  color: #007bff;
 }
 
 @media (hover: hover) {
   .bookmark-btn {
     opacity: 0;
+  }
+  .bookmark-btn:hover {
+    color: #007bff;
+  }
+}
+@media (min-width: 768px) {
+  .bookmark-btn {
+    background: rgba(0, 0, 0, 0.44);
+    color: #fff;
   }
 }
 article img {
@@ -14638,6 +14644,7 @@ article:hover .bookmark-btn {
   padding: 0.2em;
   background-color: yellow;
   display: inline;
+  line-height: 1.2;
 }
 
 .bg-light {
@@ -14646,6 +14653,15 @@ article:hover .bookmark-btn {
 
 .clickable {
   cursor: pointer;
+}
+
+.img-loading {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  background-image: url("/loading-img.91d21cfa.gif");
+  min-width: 50px;
+  min-height: 50px;
 }
 
 /*# sourceMappingURL=/main.2026268b.css.map */

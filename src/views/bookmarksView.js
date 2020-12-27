@@ -1,4 +1,5 @@
 import View from "./view";
+
 class BookmarksView extends View {
   _parentElement = document.querySelector(".bookmark-list");
   _storageBtn = document.querySelector(".delete-storage");
@@ -30,14 +31,16 @@ class BookmarksView extends View {
 
   _generateString(article) {
     return `
-   <li class="bookmark-item list-group-item list-group-item-action bg-light d-flex justify-content-between align-items-center clickable"
+   <li class="bookmark-item list-group-item list-group-item-action bg-light d-flex justify-content-between align-items-center clickable  "
     data-hash="${article.id}">
+    <div class="col-3 img-loading pl-0 pr-2 ">
       <img
         src="${article.pictures.thumb}"
-        alt=""
-        class="pr-2"
+        alt="${article.pictureAlt}"
+        class=""
       />
-      <p class="bookmark-title  flex-grow-1">
+      </div>
+     <div class="col-auto pr-md-0"> <p class="bookmark-title  flex-grow-1"></div>
       ${article.title}
       </p>
     </li>`;

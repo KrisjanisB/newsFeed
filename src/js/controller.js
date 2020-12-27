@@ -3,6 +3,7 @@ import * as model from "./model";
 import feedView from "../views/feedView";
 import bookmarksView from "../views/bookmarksView";
 import channelsView from "../views/channelsView";
+import userView from "../views/userView";
 
 const controlFeed = async function () {
   try {
@@ -50,7 +51,12 @@ const controlAddBookmark = function (id) {
   feedView.render(model.state.feed);
 };
 
-const controlStorage = function () {
+const controlLogin = function (user) {
+  model.loadUser(user);
+  userView.render(model.state.user);
+};
+
+const controlClearStorage = function () {
   model.clearLocalStorage();
   bookmarksView.render(model.state.bookmarks);
   feedView.render(model.state.feed);
@@ -61,7 +67,8 @@ const init = function () {
   controlFeed();
   bookmarksView.addHandlerRender(controlBookmarks);
   bookmarksView.addHandlerScrollInToView(controlFeedScroll);
-  bookmarksView.addHandlerClearStorage(controlStorage);
+  bookmarksView.addHandlerClearStorage(controlClearStorage);
+  userView.addHandlerLogin(controlLogin);
   feedView.addHandlerAddBookmark(controlAddBookmark);
   channelsView.addHandlerFilter(controlFilters);
 };
