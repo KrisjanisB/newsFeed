@@ -24,6 +24,9 @@ nav {
 
 #sidebar-wrapper {
   min-height: 100vh;
+  min-width: 100vw;
+  overflow-y: auto;
+  overflow-x: hidden;
   margin-left: -100vw;
   -webkit-transition: margin 0.25s ease-out;
   -moz-transition: margin 0.25s ease-out;
@@ -34,10 +37,6 @@ nav {
 #sidebar-wrapper .sidebar-heading {
   padding: 0.875rem 1.25rem;
   font-size: 1.2rem;
-}
-
-#sidebar-wrapper .list-group {
-  width: 100vw;
 }
 
 #page-content-wrapper {
@@ -55,11 +54,9 @@ nav {
 
 @media (min-width: 768px) {
   #sidebar-wrapper {
-    margin-left: -30rem;
+    min-width: 30vw;
+    width: 100vw;
     margin-left: 0;
-  }
-  #sidebar-wrapper .list-group {
-    width: 30rem;
   }
 
   #page-content-wrapper {
@@ -68,6 +65,23 @@ nav {
   }
 
   #wrapper.toggled #sidebar-wrapper {
-    margin-left: -30rem;
+    margin-left: -100vw;
+  }
+}
+
+@media (min-width: 1200px) {
+  #sidebar-wrapper {
+    min-width: 30vw;
+    width: 30vw;
+    margin-left: 0;
+  }
+
+  #page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: -30vw;
   }
 }

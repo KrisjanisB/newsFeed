@@ -15,9 +15,9 @@ class FeedView extends View {
   }
 
   scrollToView(id) {
-    if (this._wrapper.classList.contains("toggled")) {
+    if (this._wrapper.classList.contains("toggled"))
       this._wrapper.classList.remove("toggled");
-    }
+
     if (id > 0) var top = document.getElementById(id).offsetTop;
     document.getElementById("feed-container").scrollTo(0, top - 100);
   }

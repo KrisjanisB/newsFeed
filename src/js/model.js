@@ -1,12 +1,9 @@
 import { API_URL } from "./config";
-import jQuery from "jquery";
 
-window.$ = window.jQuery = jQuery;
 export const state = {
   feed: {},
   bookmarks: [],
   channels: [0].sort(),
-  user: "",
 };
 
 export const loadFeed = async function () {
@@ -18,6 +15,7 @@ export const loadFeed = async function () {
     state.feed = data.map((article) => {
       let bookmark = false;
       if (state.bookmarks.length != 0) {
+        // Set Article as bookmarked
         if (state.bookmarks.some((bookmark) => bookmark.id === article.id))
           bookmark = true;
       }
@@ -42,14 +40,10 @@ export const loadFeed = async function () {
         filter: false,
       };
     });
-    console.log(state);
   } catch (error) {
     console.log(error);
+    throw error;
   }
-};
-
-export const loadUser = function (user) {
-  state.user = user.name;
 };
 
 export const filter = function (filter) {
@@ -64,7 +58,14 @@ export const filter = function (filter) {
     });
 };
 
+export const resetFilter = function () {
+  state.feed.forEach((art) => {
+    art.filter = false;
+  });
+};
+
 const persitBookmark = function () {
+  // Add Bookamrks to Local Storage
   localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
 };
 
@@ -97,6 +98,7 @@ export const deleteBookmark = function (id) {
 };
 
 export const clearLocalStorage = function () {
+  //  Clear Local Storage
   state.bookmarks.forEach((bookmark) => {
     state.feed.find((art) => {
       if (bookmark.id === art.id) art.bookmarked = false;
@@ -107,8 +109,7 @@ export const clearLocalStorage = function () {
 };
 
 const init = function () {
-  $("#UsernameModal").modal();
-
+  // Load bookmarks from Local Storage into State
   const storage = JSON.parse(localStorage.getItem("bookmarks"));
   if (storage) state.bookmarks = storage;
 };

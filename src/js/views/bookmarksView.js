@@ -31,18 +31,18 @@ class BookmarksView extends View {
 
   _generateString(article) {
     return `
-   <li class="bookmark-item list-group-item list-group-item-action bg-light d-flex justify-content-between align-items-center clickable  "
+   <li class="bookmark-item list-group-item list-group-item-action d-flex align-items-center clickable pr-1"
     data-hash="${article.id}">
-    <div class="col-3 img-loading pl-0 pr-2 ">
+    <div class="col-auto img-loading pl-0 pr-2 ">
       <img
         src="${article.pictures.thumb}"
         alt="${article.pictureAlt}"
         class=""
       />
       </div>
-     <div class="col-auto pr-md-0"> <p class="bookmark-title  flex-grow-1"></div>
+     <div class="col-8  pr-0"> <p class="bookmark-title p-0 m-0">
       ${article.title}
-      </p>
+      </p></div>
     </li>`;
   }
 

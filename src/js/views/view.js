@@ -10,22 +10,16 @@ export default class View {
   spinner() {
     const markup = `
     <div class="spinner-grow text-primary mr-3 mr-md-5" role="status">
-    <span class="sr-only">Loading...</span>
     </div>
     <div class="spinner-grow text-secondary mr-3 mr-md-5" role="status">
-    <span class="sr-only">Loading...</span>
     </div>
     <div class="spinner-grow text-success mr-3 mr-md-5" role="status">
-    <span class="sr-only">Loading...</span>
     </div>
     <div class="spinner-grow text-danger mr-3 mr-md-5" role="status">
-    <span class="sr-only">Loading...</span>
     </div>
     <div class="spinner-grow text-warning mr-3 mr-md-5" role="status">
-    <span class="sr-only">Loading...</span>
     </div>
     <div class="spinner-grow text-info mr-3 mr-md-5" role="status">
-    <span class="sr-only">Loading...</span>
     </div>`;
     this._parentElement.innerHtml = "";
     this._parentElement.insertAdjacentHTML("afterbegin", markup);

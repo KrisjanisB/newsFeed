@@ -14539,6 +14539,9 @@ nav .nav-item {
 
 #sidebar-wrapper {
   min-height: 100vh;
+  min-width: 100vw;
+  overflow-y: auto;
+  overflow-x: hidden;
   margin-left: -100vw;
   -webkit-transition: margin 0.25s ease-out;
   -moz-transition: margin 0.25s ease-out;
@@ -14549,10 +14552,6 @@ nav .nav-item {
 #sidebar-wrapper .sidebar-heading {
   padding: 0.875rem 1.25rem;
   font-size: 1.2rem;
-}
-
-#sidebar-wrapper .list-group {
-  width: 100vw;
 }
 
 #page-content-wrapper {
@@ -14570,12 +14569,9 @@ nav .nav-item {
 
 @media (min-width: 768px) {
   #sidebar-wrapper {
-    margin-left: -30rem;
+    min-width: 30vw;
+    width: 100vw;
     margin-left: 0;
-  }
-
-  #sidebar-wrapper .list-group {
-    width: 30rem;
   }
 
   #page-content-wrapper {
@@ -14584,7 +14580,23 @@ nav .nav-item {
   }
 
   #wrapper.toggled #sidebar-wrapper {
-    margin-left: -30rem;
+    margin-left: -100vw;
+  }
+}
+@media (min-width: 1200px) {
+  #sidebar-wrapper {
+    min-width: 30vw;
+    width: 30vw;
+    margin-left: 0;
+  }
+
+  #page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: -30vw;
   }
 }
 .bookmark-item {
@@ -14605,7 +14617,7 @@ nav .nav-item {
   color: rgba(0, 0, 0, 0.44);
   margin: 0.3em;
   padding: 0.4em 0.6em 0.2em 0.6em;
-  border-radius: 50%;
+  border-radius: 7px;
   cursor: pointer;
 }
 
@@ -14644,7 +14656,7 @@ article:hover .bookmark-btn {
   padding: 0.2em;
   background-color: yellow;
   display: inline;
-  line-height: 1.2;
+  line-height: 1.5;
 }
 
 .bg-light {

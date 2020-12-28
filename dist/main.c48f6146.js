@@ -19008,15 +19008,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CHANNELS = exports.API_URL = void 0;
-// export const API_URL =
-//   "https://cors-anywhere.herokuapp.com/https://www.delfi.lv/misc/task_2020/";
-var API_URL = "./data.json";
+var API_URL = "https://cors-anywhere.herokuapp.com/https://www.delfi.lv/misc/task_2020/"; // List of Channels generated in modal.js
+
 exports.API_URL = API_URL;
 var CHANNELS = {
   0: "Visi",
   1: "Delfi",
   7: "Delfi Pluss",
-  40: "MVP"
+  40: "MVP",
+  999: "Cits"
 };
 exports.CHANNELS = CHANNELS;
 },{}],"src/js/model.js":[function(require,module,exports) {
@@ -19025,24 +19025,18 @@ exports.CHANNELS = CHANNELS;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.clearLocalStorage = exports.deleteBookmark = exports.addBookmark = exports.filter = exports.loadUser = exports.loadFeed = exports.state = void 0;
+exports.clearLocalStorage = exports.deleteBookmark = exports.addBookmark = exports.resetFilter = exports.filter = exports.loadFeed = exports.state = void 0;
 
 var _config = require("./config");
-
-var _jquery = _interopRequireDefault(require("jquery"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-window.$ = window.jQuery = _jquery.default;
 var state = {
   feed: {},
   bookmarks: [],
-  channels: [0].sort(),
-  user: ""
+  channels: [0].sort()
 };
 exports.state = state;
 
@@ -19068,6 +19062,7 @@ var loadFeed = /*#__PURE__*/function () {
               var bookmark = false;
 
               if (state.bookmarks.length != 0) {
+                // Set Article as bookmarked
                 if (state.bookmarks.some(function (bookmark) {
                   return bookmark.id === article.id;
                 })) bookmark = true;
@@ -19092,21 +19087,21 @@ var loadFeed = /*#__PURE__*/function () {
                 filter: false
               };
             });
-            console.log(state);
             _context.next = 14;
             break;
 
-          case 11:
-            _context.prev = 11;
+          case 10:
+            _context.prev = 10;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
+            throw _context.t0;
 
           case 14:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 11]]);
+    }, _callee, null, [[0, 10]]);
   }));
 
   return function loadFeed() {
@@ -19115,12 +19110,6 @@ var loadFeed = /*#__PURE__*/function () {
 }();
 
 exports.loadFeed = loadFeed;
-
-var loadUser = function loadUser(user) {
-  state.user = user.name;
-};
-
-exports.loadUser = loadUser;
 
 var filter = function filter(_filter) {
   if (_filter != 0) state.feed.forEach(function (art) {
@@ -19132,7 +19121,16 @@ var filter = function filter(_filter) {
 
 exports.filter = filter;
 
+var resetFilter = function resetFilter() {
+  state.feed.forEach(function (art) {
+    art.filter = false;
+  });
+};
+
+exports.resetFilter = resetFilter;
+
 var persitBookmark = function persitBookmark() {
+  // Add Bookamrks to Local Storage
   localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
 };
 
@@ -19169,6 +19167,7 @@ var deleteBookmark = function deleteBookmark(id) {
 exports.deleteBookmark = deleteBookmark;
 
 var clearLocalStorage = function clearLocalStorage() {
+  //  Clear Local Storage
   state.bookmarks.forEach(function (bookmark) {
     state.feed.find(function (art) {
       if (bookmark.id === art.id) art.bookmarked = false;
@@ -19181,13 +19180,13 @@ var clearLocalStorage = function clearLocalStorage() {
 exports.clearLocalStorage = clearLocalStorage;
 
 var init = function init() {
-  $("#UsernameModal").modal();
+  // Load bookmarks from Local Storage into State
   var storage = JSON.parse(localStorage.getItem("bookmarks"));
   if (storage) state.bookmarks = storage;
 };
 
 init();
-},{"./config":"src/js/config.js","jquery":"node_modules/jquery/dist/jquery.js"}],"src/views/view.js":[function(require,module,exports) {
+},{"./config":"src/js/config.js"}],"src/js/views/view.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19222,7 +19221,7 @@ var View = /*#__PURE__*/function () {
   }, {
     key: "spinner",
     value: function spinner() {
-      var markup = "\n    <div class=\"spinner-grow text-primary mr-3 mr-md-5\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-secondary mr-3 mr-md-5\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-success mr-3 mr-md-5\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-danger mr-3 mr-md-5\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-warning mr-3 mr-md-5\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>\n    <div class=\"spinner-grow text-info mr-3 mr-md-5\" role=\"status\">\n    <span class=\"sr-only\">Loading...</span>\n    </div>";
+      var markup = "\n    <div class=\"spinner-grow text-primary mr-3 mr-md-5\" role=\"status\">\n    </div>\n    <div class=\"spinner-grow text-secondary mr-3 mr-md-5\" role=\"status\">\n    </div>\n    <div class=\"spinner-grow text-success mr-3 mr-md-5\" role=\"status\">\n    </div>\n    <div class=\"spinner-grow text-danger mr-3 mr-md-5\" role=\"status\">\n    </div>\n    <div class=\"spinner-grow text-warning mr-3 mr-md-5\" role=\"status\">\n    </div>\n    <div class=\"spinner-grow text-info mr-3 mr-md-5\" role=\"status\">\n    </div>";
       this._parentElement.innerHtml = "";
 
       this._parentElement.insertAdjacentHTML("afterbegin", markup);
@@ -19251,7 +19250,7 @@ var View = /*#__PURE__*/function () {
 }();
 
 exports.default = View;
-},{}],"src/views/feedView.js":[function(require,module,exports) {
+},{}],"src/js/views/feedView.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19324,10 +19323,7 @@ var FeedView = /*#__PURE__*/function (_View) {
   }, {
     key: "scrollToView",
     value: function scrollToView(id) {
-      if (this._wrapper.classList.contains("toggled")) {
-        this._wrapper.classList.remove("toggled");
-      }
-
+      if (this._wrapper.classList.contains("toggled")) this._wrapper.classList.remove("toggled");
       if (id > 0) var top = document.getElementById(id).offsetTop;
       document.getElementById("feed-container").scrollTo(0, top - 100);
     }
@@ -19350,7 +19346,7 @@ var FeedView = /*#__PURE__*/function (_View) {
 var _default = new FeedView();
 
 exports.default = _default;
-},{"./view":"src/views/view.js"}],"src/views/bookmarksView.js":[function(require,module,exports) {
+},{"./view":"src/js/views/view.js"}],"src/js/views/bookmarksView.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19442,7 +19438,7 @@ var BookmarksView = /*#__PURE__*/function (_View) {
   }, {
     key: "_generateString",
     value: function _generateString(article) {
-      return "\n   <li class=\"bookmark-item list-group-item list-group-item-action bg-light d-flex justify-content-between align-items-center clickable  \"\n    data-hash=\"".concat(article.id, "\">\n    <div class=\"col-3 img-loading pl-0 pr-2 \">\n      <img\n        src=\"").concat(article.pictures.thumb, "\"\n        alt=\"").concat(article.pictureAlt, "\"\n        class=\"\"\n      />\n      </div>\n     <div class=\"col-auto pr-md-0\"> <p class=\"bookmark-title  flex-grow-1\"></div>\n      ").concat(article.title, "\n      </p>\n    </li>");
+      return "\n   <li class=\"bookmark-item list-group-item list-group-item-action d-flex align-items-center clickable pr-1\"\n    data-hash=\"".concat(article.id, "\">\n    <div class=\"col-auto img-loading pl-0 pr-2 \">\n      <img\n        src=\"").concat(article.pictures.thumb, "\"\n        alt=\"").concat(article.pictureAlt, "\"\n        class=\"\"\n      />\n      </div>\n     <div class=\"col-8  pr-0\"> <p class=\"bookmark-title p-0 m-0\">\n      ").concat(article.title, "\n      </p></div>\n    </li>");
     }
   }, {
     key: "_clearParentElement",
@@ -19457,7 +19453,7 @@ var BookmarksView = /*#__PURE__*/function (_View) {
 var _default = new BookmarksView();
 
 exports.default = _default;
-},{"./view":"src/views/view.js"}],"src/views/channelsView.js":[function(require,module,exports) {
+},{"./view":"src/js/views/view.js"}],"src/js/views/channelsView.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19465,7 +19461,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _config = require("../js/config");
+var _config = require("../config");
 
 var _view = _interopRequireDefault(require("./view"));
 
@@ -19531,15 +19527,14 @@ var ChannelsView = /*#__PURE__*/function (_View) {
   _createClass(ChannelsView, [{
     key: "addHandlerFilter",
     value: function addHandlerFilter(handler) {
+      var _this2 = this;
+
       this._parentElement.addEventListener("click", function (e) {
         var btn = e.target.closest(".filter-btn ");
-        if (!btn) return; // Remove active class from siblings
+        if (!btn) return;
 
-        _toConsumableArray(btn.parentElement.parentElement.children).forEach(function (sib) {
-          return sib.children[0].classList.remove("active");
-        });
+        _this2._toggleActiveClass(btn);
 
-        btn.classList.add("active");
         handler(btn.dataset.filter);
       });
     }
@@ -19554,7 +19549,24 @@ var ChannelsView = /*#__PURE__*/function (_View) {
     value: function _generateString(filter) {
       var _CHANNELS$filter;
 
-      return "\n    <li class=\"nav-item mr-2 mt-md-0\">\n    <button\n      class=\"btn btn-sm btn-light filter-btn \"\n      data-filter=\"".concat(filter, "\"\n    >\n    ").concat((_CHANNELS$filter = _config.CHANNELS[filter]) !== null && _CHANNELS$filter !== void 0 ? _CHANNELS$filter : "Cits", "\n    </button>\n  </li>");
+      return "\n    <li class=\"nav-item mr-2 mt-md-0\" title=\"Atlas\u012Bt rakstus\">\n    <button\n      class=\"btn btn-sm btn-light filter-btn \"\n      data-filter=\"".concat(filter, "\"\n    >\n    ").concat((_CHANNELS$filter = _config.CHANNELS[filter]) !== null && _CHANNELS$filter !== void 0 ? _CHANNELS$filter : _config.CHANNELS[999], "\n    </button>\n  </li>");
+    }
+  }, {
+    key: "resetChannel",
+    value: function resetChannel() {
+      var btn = document.querySelector("[data-filter='0']");
+
+      this._toggleActiveClass(btn);
+    }
+  }, {
+    key: "_toggleActiveClass",
+    value: function _toggleActiveClass(btn) {
+      // Remove active class from siblings
+      _toConsumableArray(btn.parentElement.parentElement.children).forEach(function (sib) {
+        return sib.children[0].classList.remove("active");
+      });
+
+      btn.classList.add("active");
     }
   }]);
 
@@ -19564,118 +19576,18 @@ var ChannelsView = /*#__PURE__*/function (_View) {
 var _default = new ChannelsView();
 
 exports.default = _default;
-},{"../js/config":"src/js/config.js","./view":"src/views/view.js"}],"src/views/userView.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _view = _interopRequireDefault(require("./view"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var UserView = /*#__PURE__*/function (_View) {
-  _inherits(UserView, _View);
-
-  var _super = _createSuper(UserView);
-
-  function UserView() {
-    var _this;
-
-    _classCallCheck(this, UserView);
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty(_assertThisInitialized(_this), "_parentElement", document.querySelector(".username"));
-
-    _defineProperty(_assertThisInitialized(_this), "_loginForm", document.querySelector(".login"));
-
-    return _this;
-  }
-
-  _createClass(UserView, [{
-    key: "addHandlerLogin",
-    value: function addHandlerLogin(handler) {
-      this._loginForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        $("#UsernameModal").modal("hide");
-
-        var dataArr = _toConsumableArray(new FormData(this));
-
-        var data = Object.fromEntries(dataArr);
-        handler(data);
-      });
-    }
-  }, {
-    key: "_generateHtml",
-    value: function _generateHtml() {
-      this._parentElement.innerHTML = "";
-      return "<span>Sveiks, ".concat(this._data, " !</span>");
-    }
-  }]);
-
-  return UserView;
-}(_view.default);
-
-var _default = new UserView();
-
-exports.default = _default;
-},{"./view":"src/views/view.js"}],"src/js/controller.js":[function(require,module,exports) {
+},{"../config":"src/js/config.js","./view":"src/js/views/view.js"}],"src/js/controller.js":[function(require,module,exports) {
 "use strict";
 
 require("regenerator-runtime/runtime");
 
 var model = _interopRequireWildcard(require("./model"));
 
-var _feedView = _interopRequireDefault(require("../views/feedView"));
+var _feedView = _interopRequireDefault(require("./views/feedView"));
 
-var _bookmarksView = _interopRequireDefault(require("../views/bookmarksView"));
+var _bookmarksView = _interopRequireDefault(require("./views/bookmarksView"));
 
-var _channelsView = _interopRequireDefault(require("../views/channelsView"));
-
-var _userView = _interopRequireDefault(require("../views/userView"));
+var _channelsView = _interopRequireDefault(require("./views/channelsView"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19696,7 +19608,7 @@ var controlFeed = /*#__PURE__*/function () {
             _context.prev = 0;
 
             // Load spinner while wait for data
-            _feedView.default.spinner(); // Load data
+            _feedView.default.spinner(); // Load data to state
 
 
             _context.next = 4;
@@ -19709,65 +19621,69 @@ var controlFeed = /*#__PURE__*/function () {
 
             _channelsView.default.render(model.state.channels);
 
-            _context.next = 12;
+            _channelsView.default.resetChannel();
+
+            _context.next = 13;
             break;
 
-          case 8:
-            _context.prev = 8;
+          case 9:
+            _context.prev = 9;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
 
             _feedView.default.renderError();
 
-          case 12:
+          case 13:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 9]]);
   }));
 
   return function controlFeed() {
     return _ref.apply(this, arguments);
   };
-}();
+}(); /////////////////////////////////////////
+// Filteer feed according to channel
+
 
 var controlFilters = function controlFilters(filter) {
   model.filter(filter);
 
   _feedView.default.render(model.state.feed);
-};
+}; /////////////////////////////////////////
+// Render bookmarks if in state
+
 
 var controlBookmarks = function controlBookmarks() {
-  // Render bookmarks if in state
   if (model.state.bookmarks.length === 0) _bookmarksView.default.renderMessage();else _bookmarksView.default.render(model.state.bookmarks);
-};
+}; /////////////////////////////////////////
+
 
 var controlFeedScroll = function controlFeedScroll(hash) {
+  model.resetFilter();
+
+  _channelsView.default.resetChannel();
+
+  _feedView.default.render(model.state.feed);
+
   _feedView.default.scrollToView(hash);
-};
+}; /////////////////////////////////////////
+// Add or Remove bookmarks
+
 
 var controlAddBookmark = function controlAddBookmark(id) {
   var index = model.state.bookmarks.findIndex(function (article) {
     return article.id === +id;
   });
-
-  if (index === -1) {
-    model.addBookmark(id);
-  } else {
-    model.deleteBookmark(id);
-  }
-
+  if (index === -1) model.addBookmark(id);else model.deleteBookmark(id);
   if (model.state.bookmarks.length === 0) _bookmarksView.default.renderMessage();else _bookmarksView.default.render(model.state.bookmarks);
 
   _feedView.default.render(model.state.feed);
-};
+}; /////////////////////////////////////////
+// Clear Local Storage from all Bookamrk data
 
-var controlLogin = function controlLogin(user) {
-  model.loadUser(user);
-
-  _userView.default.render(model.state.user);
-};
 
 var controlClearStorage = function controlClearStorage() {
   model.clearLocalStorage();
@@ -19777,7 +19693,9 @@ var controlClearStorage = function controlClearStorage() {
   _feedView.default.render(model.state.feed);
 
   _feedView.default.scrollToView(0);
-};
+}; /////////////////////////////////////////
+// Initiate App
+
 
 var init = function init() {
   controlFeed();
@@ -19788,15 +19706,13 @@ var init = function init() {
 
   _bookmarksView.default.addHandlerClearStorage(controlClearStorage);
 
-  _userView.default.addHandlerLogin(controlLogin);
-
   _feedView.default.addHandlerAddBookmark(controlAddBookmark);
 
   _channelsView.default.addHandlerFilter(controlFilters);
 };
 
 init();
-},{"regenerator-runtime/runtime":"node_modules/regenerator-runtime/runtime.js","./model":"src/js/model.js","../views/feedView":"src/views/feedView.js","../views/bookmarksView":"src/views/bookmarksView.js","../views/channelsView":"src/views/channelsView.js","../views/userView":"src/views/userView.js"}],"src/js/main.js":[function(require,module,exports) {
+},{"regenerator-runtime/runtime":"node_modules/regenerator-runtime/runtime.js","./model":"src/js/model.js","./views/feedView":"src/js/views/feedView.js","./views/bookmarksView":"src/js/views/bookmarksView.js","./views/channelsView":"src/js/views/channelsView.js"}],"src/js/main.js":[function(require,module,exports) {
 "use strict";
 
 require("bootstrap");
@@ -19842,7 +19758,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39773" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45201" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
