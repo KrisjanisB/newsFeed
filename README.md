@@ -1,4 +1,4 @@
 # newsFeed
 
-npm run install
+npm run install &&
 npm start
